@@ -5,6 +5,7 @@ import configparser
 import json
 import logging
 import logging.config
+import os
 
 import db_client
 
@@ -117,7 +118,11 @@ if __name__ == '__main__':
     if conf.has_section('VAULT'):
       if conf['VAULT']['Enabled'].lower() == 'true':
         logger.info('Vault is enabled...')
-        dbc.init_vault(addr=conf['VAULT']['Address'], token=conf['VAULT']['Token'], path=conf['VAULT']['KeyPath'], key_name=conf['VAULT']['KeyName'])
+        if 'VAULT_TOKEN' in os.environ:
+            vault_token = os.environ['VAULT_TOKEN']
+        else:
+            vault_token = conf['VAULT']['Token']
+        dbc.init_vault(addr=conf['VAULT']['Address'], token=vault_token, path=conf['VAULT']['KeyPath'], key_name=conf['VAULT']['KeyName'])
         if conf['VAULT']['DynamicDBCreds'].lower() == 'true':
           logger.debug('db_auth')
           dbc.vault_db_auth(conf['VAULT']['DynamicDBCredsPath'])
