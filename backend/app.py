@@ -27,7 +27,7 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 def read_config():
   conf = configparser.ConfigParser()
-  with open('config.ini') as f:
+  with open('./config/config.ini') as f:
     conf.read_file(f)
   return conf
 
