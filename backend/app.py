@@ -83,7 +83,19 @@ def records():
 def dbview():
     global dbc
     records = dbc.get_customer_records(raw = True)
-    return render_template('dbview.html', results = records)
+    return render_template('dbview.html', results = records, dbusername = dbc.username, dbpassword = dbc.password)
+
+@app.route('/dbuserview', methods=['GET'])
+def dbuserview():
+    global dbc
+    records = dbc.get_users()
+    logger.info("printing recs")
+    for rec in records:
+      try:
+        logger.info("rec: {}".format(rec))
+      except Exception as e:
+        logger.error('There was an error')
+    return render_template('dbuserview.html', results = records)
 
 @app.route('/add', methods=['GET'])
 def add():
