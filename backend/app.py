@@ -89,12 +89,6 @@ def dbview():
 def dbuserview():
     global dbc
     records = dbc.get_users()
-    logger.info("printing recs")
-    for rec in records:
-      try:
-        logger.info("rec: {}".format(rec))
-      except Exception as e:
-        logger.error('There was an error')
     return render_template('dbuserview.html', results = records)
 
 @app.route('/add', methods=['GET'])
